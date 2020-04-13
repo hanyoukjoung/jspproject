@@ -1,0 +1,19 @@
+package kr.or.ddit.qna.board.dao;
+
+import kr.or.ddit.ibatis.factory.SqlMapClientFactory;
+
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+public class QNABoardDaoImpl implements QNABoardDao {
+	private static QNABoardDao dao = new QNABoardDaoImpl();
+	private SqlMapClient client;
+	
+	public static QNABoardDao getInstance(){
+		return (dao == null) ? dao = new QNABoardDaoImpl() : dao ;
+	}
+	
+	private QNABoardDaoImpl(){
+		client = SqlMapClientFactory.getSqlMapClient();
+	}
+}

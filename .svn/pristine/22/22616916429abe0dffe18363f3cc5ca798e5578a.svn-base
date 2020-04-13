@@ -1,0 +1,12 @@
+package kr.or.ddit.ntc.board.service;
+
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.vo.NBoardVO;
+
+public interface NtcBoardService {
+	public List<NBoardVO> nboardList(Map<String, String> params);
+	public NBoardVO nfreeboardInfo(Map<String, String> params);
+	public String totalCount(Map<String, String> params);
+}

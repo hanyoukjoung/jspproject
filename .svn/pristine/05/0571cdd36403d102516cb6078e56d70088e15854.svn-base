@@ -1,0 +1,13 @@
+package kr.or.ddit.qna.board.service;
+import kr.or.ddit.qna.board.dao.QNABoardDao;
+import kr.or.ddit.qna.board.dao.QNABoardDaoImpl;
+
+public class QNABoardServiceImpl implements QNABoardService {
+	private static QNABoardService service = new QNABoardServiceImpl();
+	private static QNABoardDao dao = QNABoardDaoImpl.getInstance();
+	private QNABoardServiceImpl(){}
+	
+	public static QNABoardService getInstance(){
+		return (service == null) ? service = new QNABoardServiceImpl() : service;
+	}
+}

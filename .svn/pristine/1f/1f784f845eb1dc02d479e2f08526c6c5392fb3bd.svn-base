@@ -1,0 +1,81 @@
+<%@ page language="JAVA" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자유게시글 목록</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latesr.js"></script>
+<script type="text/javascript">
+$(function(){
+	loadList();
+	$('#insertBTN').click(function(){
+		location.href='/user/iboard/iboardForm.do';
+	});
+	$('#searchBTN').click(function(){
+		loadList();
+	});
+});
+
+function loadList(){
+	$.ajax({
+		type 		: 'post'
+		, url 		: '/user/iboard/iboardListService.do'
+		, dataType	: 'json'
+		, data		: {
+			'search_keyword': $('#search_keyword').val(),
+			'search_keycode': $('#search_keycode').val()
+		}, error 	: function(result){
+			console.log(result.status);
+		}, success 	: function(data){
+			var listHtml = '';
+			for ( var i=0; i< data.length; i++) {
+				listHtml+='<tr>';
+				listHtml+='		<td>'+data[i].rnum +'</td>';
+				listHtml+='		<td>'+data[i].bo_title +'</td>';
+				listHtml+='		<td>'+data[i].bo_nick +'</td>';
+				listHtml+='		<td>'+data[i].bo_date +'</td>';
+				listHtml+='		<td>'+data[i].bo_hit +'</td>';
+				listHtml+='</tr>';
+			}
+			$('#iboard-tbody').html(listHtml);
+		}
+	});
+}
+</script>
+</head>
+<body>
+<div id="imgboardList_content">
+	<div class="panel panel-blue">
+    	<div class="panel-heading">썸네일게시판 목록</div>
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th scope="col" width="5%">No</th>
+					<th scope="col" width="65%">제목</th>
+					<th scope="col" width="10%">작성자</th>
+					<th scope="col" width="10%">작성일</th>
+					<th scope="col" width="10%">조회수</th>
+				</tr>
+			</thead>
+			<tbody id="iboard-tbody">
+			</tbody>
+		</table>
+	</div>
+</div>
+<div >
+<form action="#" method="post" class="form-inline pull-right">
+		<input id="search_keyword" type="text" placeholder="검색어 입력..." class="form-control" />
+		<select class="form-control" name="search_keycode" >
+			<option>검색조건</option>
+			<option value="TOTAL">전체</option>
+			<option value="TITLE">제목</option>
+			<option value="CONTENT">내용</option>
+			<option value="WRITER">작성자</option>
+		</select>
+	    <button type="button" class="btn btn-primary form-control" id="searchBTN">검색</button>
+	    <button type="button" class="btn btn-info form-control" id="insertBTN">게시글 등록</button>
+</form>
+</div>	
+</body>
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!-- 이미지게시판 -->
+
+<sqlMap namespace="iboard">
+	<typeAlias alias="iboardVO" type="kr.or.ddit.vo.IBoardVO"/>
+
+	<resultMap id="iboardResultMap" class="iboardVO">
+		<result property="bo_no" column="bo_no"/>
+		<result property="bo_title" column="bo_title"/>
+		<result property="bo_writer" column="bo_writer"/>
+		<result property="bo_nick" column="bo_nick"/>
+		<result property="bo_pass" column="bo_pass"/>
+		<result property="bo_ip" column="bo_ip"/>
+		<result property="bo_cont" column="bo_cont"/>
+		<result property="bo_hit" column="bo_hit"/>
+		<result property="bo_reg_date" column="bo_reg_date"/>
+		<result property="bo_del" column="bo_del"/>
+		<result property="bo_group" column="bo_group"/>
+		<result property="bo_seq" column="bo_seq"/>
+		<result property="bo_depth" column="bo_depth"/>
+<!-- 		<result property="items" column="bo_no" select="fileitem.fileitemList"/> -->
+	</resultMap>
+	
+	<sql id="selectAll">
+		SELECT * 
+		  FROM IBOARD
+		 WHERE BO_DEL ='n'
+	</sql>
+	
+	<sql id="searchCondition">
+	<dynamic prepend="AND">
+		<isNotEmpty property="search_keyword">
+			<isEqual property="search_keycode" compareValue="TOTAL" open="(" close=")">
+					BO_TITLE LIKE '%'||#search_keyword#||'%'
+				OR  BO_CONT LIKE '%'||#search_keyword#||'%'
+				OR	BO_NICK LIKE '%'||#search_keyword#||'%'
+			</isEqual>
+			<isEqual property="search_keycode" compareValue="TITLE" >
+					BO_TITLE LIKE '%'||#search_keyword#||'%'
+			</isEqual>
+			<isEqual property="search_keycode" compareValue="CONTENT">
+					BO_CONT LIKE '%'||#search_keyword#||'%'
+			</isEqual>
+			<isEqual property="search_keycode" compareValue="WRITER">
+					BO_NICK LIKE '%'||#search_keyword#||'%'
+			</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	
+	<select id="totalcount" parameterClass="Map" resultClass="String" >
+		SELECT COUNT(*)
+		  FROM IBOARD
+		 WHERE BO_DEL = 'n'
+		 <include refid="searchCondition"/>
+	</select>
+	
+	<select id="boardList" resultClass="iboardVO" parameterClass="Map">
+	SELECT B.*
+		FROM( SELECT ROWNUM rnum, A.*
+ 			FROM (<include refid="selectAll"/>
+ 				  <include refid="searchCondition"/>
+		    	  ) A) B
+	<![CDATA[
+ 	WHERE B.RNUM <= #startCount# 
+ 			AND B.RNUM >= #endCount# 
+    	 ]]> 
+   	 ORDER BY B.RNUM DESC 	  	  
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,20 @@
+package kr.or.ddit.ntc.board.dao;
+
+
+import kr.or.ddit.ibatis.factory.SqlMapClientFactory;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+public class NTCBoardDaoImpl implements NTCBoardDao {
+	private static NTCBoardDao dao = new NTCBoardDaoImpl();
+	private SqlMapClient client;
+	
+	public static NTCBoardDao getInstance(){
+		return (dao == null) ? dao = new NTCBoardDaoImpl() : dao ;
+	}
+	
+	private NTCBoardDaoImpl(){
+		client = SqlMapClientFactory.getSqlMapClient();
+	}
+
+}

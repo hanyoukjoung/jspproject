@@ -1,0 +1,56 @@
+package kr.or.ddit.ref.board.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.ibatis.factory.SqlMapClientFactory;
+import kr.or.ddit.vo.RBoardVO;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+public class REFBoardDaoImpl implements REFBoardDao {
+	private static REFBoardDao dao = new REFBoardDaoImpl();
+	private SqlMapClient client= SqlMapClientFactory.getSqlMapClient();
+	
+	public static REFBoardDao getInstance(){
+		return (dao == null) ? dao = new REFBoardDaoImpl() : dao ;
+	}
+	
+	private REFBoardDaoImpl(){
+
+	}
+
+	@Override
+	public List<RBoardVO> rboardList(Map<String, String> params) throws SQLException {
+		return client.queryForList("rboard.rboardList",params);
+	}
+
+	@Override
+	public String totalCount(Map<String, String> params) throws SQLException {
+		return (String) client.queryForObject("rboard.totalCount",params);
+	}
+
+	@Override
+	public String insertBoardInfo(RBoardVO boardInfo) throws SQLException {
+		return (String) client.insert("rboard.insertRBoard", boardInfo);
+	}
+
+	@Override
+	public RBoardVO rboardInfo(Map<String, String> params) throws SQLException {
+		RBoardVO rboardInfo = null;
+		try {
+			client.startTransaction();
+			
+			client.update("rboard.updateHIT",params);
+			rboardInfo = (RBoardVO) client.queryForObject("rboard.rboardInfo", params);
+			
+			client.commitTransaction();
+			
+		} finally{
+			client.endTransaction();
+		}
+		return rboardInfo;
+	}
+
+}

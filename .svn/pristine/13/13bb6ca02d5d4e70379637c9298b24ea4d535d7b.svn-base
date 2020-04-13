@@ -1,0 +1,17 @@
+package kr.or.ddit.ntc.board.service;
+
+
+import kr.or.ddit.ntc.board.dao.NTCBoardDao;
+import kr.or.ddit.ntc.board.dao.NTCBoardDaoImpl;
+
+
+public class NtcBoardServiceImpl implements NtcBoardService {
+	private static NtcBoardService service = new NtcBoardServiceImpl();
+	private static NTCBoardDao dao = NTCBoardDaoImpl.getInstance();
+	private NtcBoardServiceImpl(){}
+	
+	public static NtcBoardService getInstance(){
+		return (service == null) ? service = new NtcBoardServiceImpl() : service;
+	}
+	
+}

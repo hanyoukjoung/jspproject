@@ -1,0 +1,46 @@
+package kr.or.ddit.ntc.board.service;
+
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.ntc.board.dao.NTCBoardDao;
+import kr.or.ddit.ntc.board.dao.NTCBoardDaoImpl;
+import kr.or.ddit.vo.NBoardVO;
+
+
+public class NtcBoardServiceImpl implements NtcBoardService {
+	private static NtcBoardService service = new NtcBoardServiceImpl();
+	private static NTCBoardDao dao;
+	private NtcBoardServiceImpl(){
+		dao = NTCBoardDaoImpl.getInstance();
+		
+	}
+	
+	public static NtcBoardService getInstance(){
+		return (service == null) ? service = new NtcBoardServiceImpl() : service;
+	}
+
+	@Override
+	public List<NBoardVO> nboardList(Map<String, String> params) {
+		List<NBoardVO> nboardList = null;
+		try {
+			nboardList=dao.nboardList(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nboardList;
+	}
+
+	@Override
+	public NBoardVO nfreeboardInfo(Map<String, String> params) {
+		NBoardVO nboardInfo = null;
+		try {
+			nboardInfo= dao.nfreeboardInfo(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nboardInfo;
+	}
+}

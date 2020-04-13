@@ -1,0 +1,9 @@
+package kr.or.ddit.image.board.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+public interface IIMGBoardDao {
+	public String totalCount(Map<String, String> params) throws SQLException;
+}

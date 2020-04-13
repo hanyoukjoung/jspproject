@@ -1,0 +1,5 @@
+package kr.or.ddit.ntc.board.service;
+
+public interface NtcBoardService {
+
+}

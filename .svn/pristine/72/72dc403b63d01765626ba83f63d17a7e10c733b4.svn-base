@@ -1,0 +1,23 @@
+package kr.or.ddit.user.iboard.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.base.action.IAction;
+
+public class IboardListServiceAction implements IAction {
+	
+	private boolean isRedirect;
+	
+	@Override
+	public boolean isRedirect() {
+		return isRedirect;
+	}
+
+	@Override
+	public String process(HttpServletRequest request,
+			HttpServletResponse response) {
+		return "/user/iboard/iboardListService.jsp";
+	}
+
+}

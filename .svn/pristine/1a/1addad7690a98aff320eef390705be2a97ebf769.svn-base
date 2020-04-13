@@ -1,0 +1,32 @@
+package kr.or.ddit.image.board.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.file.dao.BoardFileDao;
+import kr.or.ddit.file.dao.BoardFileDaoImpl;
+import kr.or.ddit.image.board.dao.IIMGBoardDao;
+import kr.or.ddit.image.board.dao.IIMGBoardDaoImpl;
+
+public class IIMGBoardServiceImpl implements IIMGBoardService{
+	
+	private static IIMGBoardService service = new IIMGBoardServiceImpl();
+	private static IIMGBoardDao dao = IIMGBoardDaoImpl.getInstance();
+	private IIMGBoardServiceImpl(){}
+	
+	public static IIMGBoardService getInstance(){
+		return (service == null) ? service = new IIMGBoardServiceImpl() : service;
+	}
+
+	@Override
+	public String totalCount(Map<String, String> params) {
+		String totalCount = null;
+		try {
+			totalCount = dao.totalCount(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return totalCount;
+	}
+}

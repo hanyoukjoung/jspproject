@@ -1,0 +1,8 @@
+package kr.or.ddit.image.board.service;
+
+import java.util.Map;
+
+
+public interface IIMGBoardService {
+	public String totalCount(Map<String, String> params);
+}
